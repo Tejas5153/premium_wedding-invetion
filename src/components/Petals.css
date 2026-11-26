@@ -1,0 +1,77 @@
+.petals {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.petal {
+  position: absolute;
+  top: -8%;
+  display: block;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.petals--petal .petal {
+  border-radius: 80% 0 80% 0;
+  animation: petal-fall linear infinite;
+}
+.petals--petal .tone-0 {
+  background: linear-gradient(135deg, #f1d6d2, #d9a4a6);
+}
+.petals--petal .tone-1 {
+  background: linear-gradient(135deg, #f6e7d0, #e0bf8c);
+}
+.petals--petal .tone-2 {
+  background: linear-gradient(135deg, #f4dede, #c98a8f);
+}
+
+.petals--dust .petal {
+  top: auto;
+  bottom: -4%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f0d9a6, rgba(201, 166, 107, 0));
+  animation: dust-rise linear infinite;
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate3d(calc(var(--drift) * 0.4), 55vh, 0) rotate(calc(var(--spin) * 0.5));
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate3d(var(--drift), 112vh, 0) rotate(var(--spin));
+    opacity: 0;
+  }
+}
+
+@keyframes dust-rise {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(var(--drift), -90vh, 0);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .petals {
+    display: none;
+  }
+}

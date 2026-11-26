@@ -1,0 +1,180 @@
+.gallery {
+  background: var(--ivory);
+}
+
+.mosaic {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 21vw;
+  gap: 10px;
+}
+.mosaic__item {
+  position: relative;
+  min-height: 0;
+}
+.mosaic__item button {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: var(--champagne);
+  overflow: hidden;
+  cursor: zoom-in;
+  -webkit-tap-highlight-color: transparent;
+}
+.mosaic__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.4s var(--ease), filter 0.8s;
+}
+.mosaic__item button:hover img,
+.mosaic__item button:focus-visible img {
+  transform: scale(1.07);
+}
+.mosaic__cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2.4rem 1rem 0.9rem;
+  text-align: left;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  color: var(--ivory);
+  background: linear-gradient(transparent, rgba(30, 18, 10, 0.6));
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s, transform 0.6s var(--ease);
+}
+.mosaic__item button:hover .mosaic__cap,
+.mosaic__item button:focus-visible .mosaic__cap {
+  opacity: 1;
+  transform: none;
+}
+
+/* mobile: 2 columns, 15 rows */
+.mosaic__item--1 { grid-column: 1 / 3; grid-row: 1 / 5; }
+.mosaic__item--2 { grid-column: 1 / 3; grid-row: 5 / 8; }
+.mosaic__item--3 { grid-column: 1 / 2; grid-row: 8 / 12; }
+.mosaic__item--4 { grid-column: 2 / 3; grid-row: 8 / 10; }
+.mosaic__item--7 { grid-column: 2 / 3; grid-row: 10 / 12; }
+.mosaic__item--5 { grid-column: 1 / 2; grid-row: 12 / 16; }
+.mosaic__item--6 { grid-column: 2 / 3; grid-row: 12 / 16; }
+
+@media (min-width: 800px) {
+  .mosaic {
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: clamp(36px, 6.3vw, 76px);
+    gap: 14px;
+  }
+  .mosaic__item--1 { grid-column: 1 / 5; grid-row: 1 / 7; }
+  .mosaic__item--2 { grid-column: 5 / 13; grid-row: 1 / 5; }
+  .mosaic__item--3 { grid-column: 5 / 9; grid-row: 5 / 9; }
+  .mosaic__item--4 { grid-column: 9 / 13; grid-row: 5 / 8; }
+  .mosaic__item--5 { grid-column: 1 / 5; grid-row: 7 / 12; }
+  .mosaic__item--6 { grid-column: 5 / 9; grid-row: 9 / 12; }
+  .mosaic__item--7 { grid-column: 9 / 13; grid-row: 8 / 12; }
+}
+
+/* ---------------- lightbox ---------------- */
+.lb {
+  position: fixed;
+  inset: 0;
+  z-index: 350;
+  display: grid;
+  place-items: center;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  background: rgba(24, 14, 8, 0.94);
+  padding: 4.2rem 1rem 3rem;
+  touch-action: pan-y;
+}
+.lb__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-out;
+}
+.lb__fig {
+  position: relative;
+  display: grid;
+  gap: 0.8rem;
+  max-width: min(1100px, 100%);
+  max-height: 100%;
+  justify-items: center;
+  cursor: grab;
+}
+.lb__fig img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(100svh - 9rem);
+  object-fit: contain;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  user-select: none;
+}
+.lb__fig figcaption {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--champagne);
+}
+.lb__fig figcaption span:last-child {
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  align-self: center;
+}
+.lb__btn {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 1px solid rgba(236, 214, 169, 0.5);
+  background: rgba(30, 18, 10, 0.5);
+  color: var(--ivory);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+.lb__btn:hover {
+  background: var(--ivory);
+  color: var(--brown);
+}
+.lb__close {
+  top: max(1rem, env(safe-area-inset-top));
+  right: 1rem;
+}
+.lb__prev,
+.lb__next {
+  bottom: 0.9rem;
+}
+.lb__prev {
+  left: 1rem;
+}
+.lb__next {
+  right: 1rem;
+}
+@media (min-width: 800px) {
+  .lb__prev,
+  .lb__next {
+    bottom: auto;
+    top: 50%;
+    margin-top: -1.5rem;
+  }
+}
